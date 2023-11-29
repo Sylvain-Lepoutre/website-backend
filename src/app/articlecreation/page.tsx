@@ -1,8 +1,4 @@
-"use client";
-
-import dynamic from "next/dynamic";
-
-const ArticleCreation = dynamic(() => import("../../components/ArticleCreation"), { ssr: false });
+import ArticleCreation from "../../components/ArticleCreation";
 
 const Page = () => {
   return <ArticleCreation />;

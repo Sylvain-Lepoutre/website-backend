@@ -6,7 +6,7 @@ module.exports = {
     "plugin:jsx-a11y/recommended",
     "plugin:react/recommended",
     "plugin:react/jsx-runtime",
-    "next/core-web-vitals",
+    "plugin:react-hooks/recommended",
     "prettier",
   ],
   env: {
@@ -19,7 +19,7 @@ module.exports = {
     },
     ecmaVersion: "latest",
     sourceType: "module",
-    project: "./tsconfig.eslint.json",
+    project: "./.config/tsc/eslint/tsconfig.json",
     tsconfigRootDir: __dirname,
   },
   rules: {

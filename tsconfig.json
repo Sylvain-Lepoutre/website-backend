@@ -1,29 +1,15 @@
 {
-  "include": [".", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"],
+  "extends": "astro/tsconfigs/strict",
+  "include": ["."],
   "compilerOptions": {
     "allowJs": false,
-    "esModuleInterop": true,
+    "baseUrl": ".",
     "exactOptionalPropertyTypes": true,
-    "forceConsistentCasingInFileNames": true,
-    "incremental": false,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "noEmit": true,
+    "jsx": "react-jsx",
+    "lib": ["DOM", "ESNext"],
     "paths": {
-      "@components/*": ["./src/components/*"]
+      "~/*": ["./src/*"]
     },
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "verbatimModuleSyntax": true
+    "noUncheckedIndexedAccess": true
   }
 }
