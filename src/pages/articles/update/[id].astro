@@ -1,0 +1,22 @@
+---
+import { articleStore } from "~/stores";
+
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import { ArticleUpdate } from "~/app/reactIntoAstro/articleUpdate";
+
+export async function getStaticPaths() {
+  return Object.values(articleStore.get()).map((article) => {
+    return {
+      params: { id: article.id },
+      props: { article }
+    }
+  });
+}
+
+const { id } = Astro.params;
+const { article } = Astro.props;
+---
+
+<BaseLayout title={`Modification Article : ${id}`}>
+  <ArticleUpdate client:load article={article} />
+</BaseLayout>

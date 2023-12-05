@@ -23,7 +23,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
   },
   rules: {
-    "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+    "@typescript-eslint/consistent-type-definitions": "off",
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
   },
