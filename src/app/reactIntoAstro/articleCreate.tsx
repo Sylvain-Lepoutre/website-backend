@@ -34,6 +34,8 @@ export const ArticleCreate = () => {
 
     createArticle({ title, content });
     setModalIsOpen(false);
+
+    window.location.href = "/articles";
   };
 
   return (

@@ -63,6 +63,8 @@ export const ArticleUpdate = ({ id }: Props) => {
 
     updateArticle(article.getId(), {});
     setModalIsOpen(false);
+
+    window.location.href = "/articles";
   };
 
   return (

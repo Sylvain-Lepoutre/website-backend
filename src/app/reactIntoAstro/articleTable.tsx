@@ -22,6 +22,7 @@ export const ArticleTable = () => {
       () => {
         deleteArticle(articleId);
         setModalIsOpen(false);
+        window.location.href = "/articles";
       },
     [],
   );
