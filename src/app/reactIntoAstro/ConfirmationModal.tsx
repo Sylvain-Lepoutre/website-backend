@@ -5,6 +5,7 @@ type ConfirmationModalProps = {
   onClose: () => void;
   onConfirm: () => void;
   articleTitle: string;
+  operation: "créer" | "modifier" | "supprimer";
 };
 
 export const ConfirmationModal = ({
@@ -12,6 +13,7 @@ export const ConfirmationModal = ({
   onClose,
   onConfirm,
   articleTitle,
+  operation,
 }: ConfirmationModalProps) => {
   return (
     <Modal
@@ -19,7 +21,9 @@ export const ConfirmationModal = ({
       onRequestClose={onClose}
       contentLabel="Confirmation Modal"
     >
-      <h2>Êtes-vous sûr de vouloir supprimer l’article {articleTitle}?</h2>
+      <h2>
+        Êtes-vous sûr de vouloir {operation} l’article {articleTitle}?
+      </h2>
       <button onClick={onConfirm}>Confirmer</button>
       <button onClick={onClose}>Annuler</button>
     </Modal>

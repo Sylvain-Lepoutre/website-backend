@@ -76,6 +76,7 @@ export const ArticleCreate = () => {
             isOpen={modalIsOpen}
             onClose={handleCloseModal}
             onConfirm={handleSubmit}
+            operation="créer"
           />
         </div>
       </div>

@@ -101,6 +101,7 @@ export const ArticleTable = () => {
                 isOpen={modalIsOpen}
                 onClose={handleCloseModal}
                 onConfirm={handleDelete(article.getId())}
+                operation="supprimer"
               />
             </td>
           </tr>
