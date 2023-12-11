@@ -1,16 +1,55 @@
-import type { FormEventHandler } from "react";
+import { useStore } from "@nanostores/react";
+import {
+  useMemo,
+  useRef,
+  type ChangeEventHandler,
+  type FormEventHandler,
+} from "react";
 
-import type { Article } from "~/components/Model";
+import { store, updateArticle } from "~/stores/article";
 
 type Props = {
-  article: Article;
+  id: string;
 };
 
-export const ArticleUpdate = ({ article }: Props) => {
+export const ArticleUpdate = ({ id }: Props) => {
+  const articleMap = useStore(store);
+
+  const article = useMemo(() => articleMap[id], [articleMap, id]);
+
+  const title = useMemo(() => article.getTitle(), [article]);
+  const content = useMemo(() => article.getContent(), [article]);
+
+  const titleRef = useRef(article.getTitle());
+  const contentRef = useRef(article.getContent());
+
+  const handleTitleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+    updateArticle(
+      article.getId(),
+      {
+        title: event.target.value,
+      },
+      false,
+    );
+  };
+
+  const handleContentChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+    updateArticle(
+      article.getId(),
+      {
+        content: event.target.value,
+      },
+      false,
+    );
+  };
+
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
-    // TODO
+    titleRef.current = title;
+    contentRef.current = content;
+
+    updateArticle(article.getId(), {});
   };
 
   return (
@@ -24,18 +63,24 @@ export const ArticleUpdate = ({ article }: Props) => {
 
         <div>
           <label className="flex flex-col text-l font-bold">
-            Titre :
+            {`Titre${title !== titleRef.current ? "*" : ""}`}
+
             <input
-              type="text"
               className="border-[1px] border-[#0B3168] rounded-md h-8 mt-4 font-normal"
+              onChange={handleTitleChange}
+              type="text"
+              value={title}
             />
           </label>
 
           <label className="flex flex-col text-l font-bold">
-            Contenu :
+            {`Contenu${content !== contentRef.current ? "*" : ""}`}
+
             <input
-              type="text"
               className="border-[1px] border-[#0B3168] rounded-md h-8 mt-4 font-normal"
+              onChange={handleContentChange}
+              type="text"
+              value={content}
             />
           </label>
 

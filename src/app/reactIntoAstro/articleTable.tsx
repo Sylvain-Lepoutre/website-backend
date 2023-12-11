@@ -1,19 +1,17 @@
 import { useStore } from "@nanostores/react";
 import { useCallback, type MouseEventHandler } from "react";
 
-import { useAPI } from "~/components/API";
-import { articleStore } from "~/stores";
+import { store, deleteArticle } from "~/stores/article";
 
 export const ArticleTable = () => {
-  const articleMap = useStore(articleStore);
-  const api = useAPI();
+  const articleMap = useStore(store);
 
   const handleDelete = useCallback(
     (articleId: string): MouseEventHandler<HTMLButtonElement> =>
       () => {
-        api.deleteArticle(articleId);
+        deleteArticle(articleId);
       },
-    [api],
+    [],
   );
 
   return (
@@ -54,38 +52,38 @@ export const ArticleTable = () => {
         {Object.values(articleMap).map((article) => (
           <tr
             className="flex border-y-[1px] border-t-black w-[100vw] justify-around"
-            key={article.id}
+            key={article.getId()}
           >
             <th scope="row" className="w-1/6 flex justify-center items-center">
-              {article.title}
+              {article.getTitle()}
             </th>
 
             <td className="w-1/6 flex justify-center items-center">
-              {article.content}
+              {article.getContent()}
             </td>
 
             <td className="w-1/6 flex justify-center items-center">
-              {article.content}
+              {article.getContent()}
             </td>
 
             <td className="w-1/6 flex justify-center items-center">
-              {article.createdAt.toLocaleString()}
+              {article.getCreatedAt().toLocaleString()}
             </td>
 
             <td className="w-1/6 flex justify-center items-center">
-              {article.updatedAt.toLocaleString()}
+              {article.getUpdatedAt().toLocaleString()}
             </td>
 
             <td className="w-1/6 flex justify-center items-center">
-              <a href={`/articles/read/${article.id}`}>Lire</a>
+              <a href={`/articles/read/${article.getId()}`}>Lire</a>
 
-              <a href={`/articles/update/${article.id}`} className="mx-4">
+              <a href={`/articles/update/${article.getId()}`} className="mx-4">
                 Modifier
               </a>
 
               <button
                 className="mx-4"
-                onClick={handleDelete(article.id)}
+                onClick={handleDelete(article.getId())}
                 type="button"
               >
                 Supprimer

@@ -1,8 +1,11 @@
-// import { nanoid } from "nanoid";
+import { nanoid } from "nanoid";
 
 export type Data = {
+  id?: string;
   title: string;
   content: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export class Article {
@@ -13,61 +16,94 @@ export class Article {
   protected updatedAt: Date;
 
   public constructor(data: Data) {
-    // this.id = nanoid();
-    this.id = "1";
-    this.title = data.title;
-    this.content = data.content;
-    this.createdAt = new Date();
-    this.updatedAt = this.createdAt;
+    this.setId(data.id ?? nanoid());
+    this.setTitle(data.title);
+    this.setContent(data.content);
+    this.setCreatedAt(data.createdAt ?? new Date());
+    this.setUpdatedAt(data.updatedAt ?? this.getCreatedAt());
   }
 
   public clone() {
-    const clone = new Article({ title: this.title, content: this.content });
-
-    clone.id = this.id;
-    clone.createdAt = this.createdAt;
-    clone.updatedAt = this.updatedAt;
+    const clone = new Article({
+      id: this.getId(),
+      title: this.getTitle(),
+      content: this.getContent(),
+      createdAt: this.getCreatedAt(),
+      updatedAt: this.getUpdatedAt(),
+    });
 
     return clone;
   }
 
   public update(data: Partial<Data>) {
-    this.title = data.title ?? this.title;
-    this.content = data.content ?? this.content;
-    this.updatedAt = new Date();
+    this.setTitle(data.title ?? this.getTitle());
+    this.setContent(data.content ?? this.getContent());
+    this.setUpdatedAt(new Date());
 
     return this;
   }
 
-  public get content() {
+  public static fromJSON(json: string) {
+    const { id, title, content, createdAt, updatedAt } = JSON.parse(
+      json,
+    ) as Data;
+
+    return new Article({
+      id,
+      title,
+      content,
+      createdAt: new Date(createdAt),
+      updatedAt: new Date(updatedAt),
+    });
+  }
+
+  public toJSON() {
+    return JSON.stringify({
+      id: this.getId(),
+      title: this.getTitle(),
+      content: this.getContent(),
+      createdAt: this.getCreatedAt().toJSON(),
+      updatedAt: this.getUpdatedAt().toJSON(),
+    });
+  }
+
+  public getContent() {
     return this.content;
   }
 
-  public get createdAt() {
+  public getCreatedAt() {
     return this.createdAt;
   }
 
-  protected set createdAt(date: Date) {
-    this.createdAt = date;
-  }
-
-  public get id() {
+  public getId() {
     return this.id;
   }
 
-  protected set id(id: string) {
-    this.id = id;
+  public getTitle() {
+    return this.title;
   }
 
-  public get updatedAt() {
+  public getUpdatedAt() {
     return this.updatedAt;
   }
 
-  protected set updatedAt(date: Date) {
-    this.updatedAt = date;
+  protected setContent(content: string) {
+    this.content = content;
   }
 
-  public get title() {
-    return this.title;
+  protected setCreatedAt(date: Date) {
+    this.createdAt = date;
+  }
+
+  protected setId(id: string) {
+    this.id = id;
+  }
+
+  protected setTitle(title: string) {
+    this.title = title;
+  }
+
+  protected setUpdatedAt(date: Date) {
+    this.updatedAt = date;
   }
 }

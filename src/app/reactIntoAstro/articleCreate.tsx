@@ -1,44 +1,64 @@
-import { useState, type FormEvent } from "react";
-import { useAPI } from "~/components/API";
+import {
+  useState,
+  type ChangeEventHandler,
+  type FormEventHandler,
+} from "react";
+
+import { createArticle } from "~/stores/article";
 
 export const ArticleCreate = () => {
-  const api = useAPI();
-
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const handleSubmit = (event: FormEvent) => {
-    event.preventDefault();
-    console.log(title, content);
+  const handleTitleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+    setTitle(event.target.value);
+  };
 
-    api.createArticle({ title, content });
+  const handleContentChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+    setContent(event.target.value);
+  };
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+
+    createArticle({ title, content });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="title">Ajouter un titre</label>
-        <input
-          type="text"
-          name="title"
-          id="title"
-          value={title}
-          onChange={(event) => setTitle(event.target.value)}
-        />
-      </div>
+    <form onSubmit={handleSubmit} noValidate>
+      <div className="mx-28 mt-10 text-[#0B3168]">
+        <header>
+          <h1 className="text-3xl font-bold underline mb-10">
+            Modifier votre article
+          </h1>
+        </header>
 
-      <div>
-        <label htmlFor="content">Ajouter un contenu</label>
-        <input
-          type="text"
-          name="content"
-          id="content"
-          value={content}
-          onChange={(event) => setContent(event.target.value)}
-        />
-      </div>
+        <div>
+          <label className="flex flex-col text-l font-bold">
+            Titre
+            <input
+              className="border-[1px] border-[#0B3168] rounded-md h-8 mt-4 font-normal"
+              onChange={handleTitleChange}
+              type="text"
+              value={title}
+            />
+          </label>
 
-      <button type="submit">Créer l’article</button>
+          <label className="flex flex-col text-l font-bold">
+            Contenu
+            <input
+              className="border-[1px] border-[#0B3168] rounded-md h-8 mt-4 font-normal"
+              onChange={handleContentChange}
+              type="text"
+              value={content}
+            />
+          </label>
+
+          <div>
+            <button type="submit">Valider</button>
+          </div>
+        </div>
+      </div>
     </form>
   );
 };

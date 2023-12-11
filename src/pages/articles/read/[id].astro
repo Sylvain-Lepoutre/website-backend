@@ -1,27 +1,13 @@
 ---
-import { articleStore } from "~/stores";
-
+import { ArticleRead } from "~/app/reactIntoAstro/articleRead.tsx";
 import BaseLayout from "~/layouts/BaseLayout.astro";
+import { store } from "~/stores/article";
 
-export async function getStaticPaths() {
-  return Object.values(articleStore.get()).map((article) => {
-    return {
-      params: { id: article.id },
-      props: { article }
-    }
-  });
-}
+export const prerender = false;
 
 const { id } = Astro.params;
-const { article } = Astro.props;
 ---
 
-<BaseLayout title={`Article : ${id}`}>
-  <h1>{article.title}</h1>
-  <p>
-    {article.content}
-  </p>
-  <p>
-    {article.createdAt}
-  </p>
+<BaseLayout title={`Article: ${id}`}>
+  <!-- <h1>{`Article ${title}`}</h1> -->
 </BaseLayout>

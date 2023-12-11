@@ -24,6 +24,7 @@ module.exports = {
   },
   rules: {
     "@typescript-eslint/consistent-type-definitions": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
   },
