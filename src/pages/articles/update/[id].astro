@@ -1,0 +1,19 @@
+---
+import { ArticleUpdate } from "~/app/reactIntoAstro/articleUpdate";
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import { store } from "~/stores/article";
+
+export const prerender = false;
+
+const { id } = Astro.params;
+
+if (id === undefined) {
+  throw new Error(''); // TODO: error message
+}
+---
+
+<BaseLayout title={`Modification Article : ${id}`}>
+  <ArticleUpdate client:only="react" id={id} />
+
+  <a href="/articles">Retour</a>
+</BaseLayout>

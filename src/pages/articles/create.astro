@@ -1,0 +1,11 @@
+---
+import { ArticleCreate } from "~/app/reactIntoAstro/articleCreate";
+import BaseLayout from "~/layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Ajouter un article">
+  <ArticleCreate client:load />
+
+  <a href="/articles">Retour</a>
+</BaseLayout>
+

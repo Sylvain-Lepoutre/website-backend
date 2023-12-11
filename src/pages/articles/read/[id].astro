@@ -1,0 +1,13 @@
+---
+import { ArticleRead } from "~/app/reactIntoAstro/articleRead.tsx";
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import { store } from "~/stores/article";
+
+export const prerender = false;
+
+const { id } = Astro.params;
+---
+
+<BaseLayout title={`Article: ${id}`}>
+  <!-- <h1>{`Article ${title}`}</h1> -->
+</BaseLayout>

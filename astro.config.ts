@@ -4,6 +4,7 @@ import { defineConfig } from "astro/config";
 
 export default defineConfig({
   integrations: [react(), tailwind({ applyBaseStyles: false })],
+  output: "hybrid",
   experimental: {
     devOverlay: false,
   },
