@@ -17,6 +17,7 @@ export const ConfirmationModal = ({
 }: ConfirmationModalProps) => {
   return (
     <Modal
+      className="bg-green-700 w-1/2  mx-auto h-1/10 my-10 text-center p-10 rounded-md"
       isOpen={isOpen}
       onRequestClose={onClose}
       contentLabel="Confirmation Modal"
