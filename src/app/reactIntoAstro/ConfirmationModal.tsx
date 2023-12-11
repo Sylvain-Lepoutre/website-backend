@@ -17,7 +17,7 @@ export const ConfirmationModal = ({
 }: ConfirmationModalProps) => {
   return (
     <Modal
-      className="bg-green-700 w-1/2  mx-auto h-1/10 my-10 text-center p-10 rounded-md"
+      className="w-1/2 mx-auto h-1/10 my-10 text-center p-10 rounded-md"
       isOpen={isOpen}
       onRequestClose={onClose}
       contentLabel="Confirmation Modal"
@@ -26,7 +26,7 @@ export const ConfirmationModal = ({
         Êtes-vous sûr de vouloir {operation} l’article {articleTitle}?
       </h2>
       <button onClick={onConfirm}>Confirmer</button>
-      <button onClick={onClose}>Annuler</button>
+      <button onClick={onClose}> Annuler</button>
     </Modal>
   );
 };
