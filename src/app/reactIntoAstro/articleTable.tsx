@@ -1,15 +1,27 @@
 import { useStore } from "@nanostores/react";
-import { useCallback, type MouseEventHandler } from "react";
+import { useCallback, useState, type MouseEventHandler } from "react";
 
 import { store, deleteArticle } from "~/stores/article";
+import { ConfirmationModal } from "~/app/reactIntoAstro/ConfirmationModal";
 
 export const ArticleTable = () => {
   const articleMap = useStore(store);
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalIsOpen(false);
+  };
 
   const handleDelete = useCallback(
     (articleId: string): MouseEventHandler<HTMLButtonElement> =>
       () => {
         deleteArticle(articleId);
+        setModalIsOpen(false);
       },
     [],
   );
@@ -81,13 +93,15 @@ export const ArticleTable = () => {
                 Modifier
               </a>
 
-              <button
-                className="mx-4"
-                onClick={handleDelete(article.getId())}
-                type="button"
-              >
+              <button className="mx-4" onClick={handleOpenModal} type="button">
                 Supprimer
               </button>
+              <ConfirmationModal
+                articleTitle={article.getTitle()}
+                isOpen={modalIsOpen}
+                onClose={handleCloseModal}
+                onConfirm={handleDelete(article.getId())}
+              />
             </td>
           </tr>
         ))}
