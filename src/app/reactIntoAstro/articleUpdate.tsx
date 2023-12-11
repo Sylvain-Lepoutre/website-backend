@@ -2,11 +2,13 @@ import { useStore } from "@nanostores/react";
 import {
   useMemo,
   useRef,
+  useState,
   type ChangeEventHandler,
   type FormEventHandler,
 } from "react";
 
 import { store, updateArticle } from "~/stores/article";
+import { ConfirmationModal } from "~/app/reactIntoAstro/ConfirmationModal";
 
 type Props = {
   id: string;
@@ -14,6 +16,16 @@ type Props = {
 
 export const ArticleUpdate = ({ id }: Props) => {
   const articleMap = useStore(store);
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalIsOpen(false);
+  };
 
   const article = useMemo(() => articleMap[id], [articleMap, id]);
 
@@ -50,10 +62,11 @@ export const ArticleUpdate = ({ id }: Props) => {
     contentRef.current = content;
 
     updateArticle(article.getId(), {});
+    setModalIsOpen(false);
   };
 
   return (
-    <form onSubmit={handleSubmit} noValidate>
+    <form noValidate>
       <div className="mx-28 mt-10 text-[#0B3168]">
         <header>
           <h1 className="text-3xl font-bold underline mb-10">
@@ -85,7 +98,16 @@ export const ArticleUpdate = ({ id }: Props) => {
           </label>
 
           <div>
-            <button type="submit">Valider</button>
+            <button type="button" onClick={handleOpenModal}>
+              Valider
+            </button>
+            <ConfirmationModal
+              articleTitle={title}
+              isOpen={modalIsOpen}
+              onClose={handleCloseModal}
+              onConfirm={handleSubmit}
+              operation="modifier"
+            />
           </div>
         </div>
       </div>
