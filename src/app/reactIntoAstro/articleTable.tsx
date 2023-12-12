@@ -8,12 +8,15 @@ export const ArticleTable = () => {
   const articleMap = useStore(store);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedArticleId, setSelectedArticleId] = useState("");
 
-  const handleOpenModal = () => {
+  const handleOpenModal = (articleId: string) => {
+    setSelectedArticleId(articleId);
     setModalIsOpen(true);
   };
 
   const handleCloseModal = () => {
+    setSelectedArticleId("");
     setModalIsOpen(false);
   };
 
@@ -22,7 +25,6 @@ export const ArticleTable = () => {
       () => {
         deleteArticle(articleId);
         setModalIsOpen(false);
-        window.location.href = "/articles";
       },
     [],
   );
@@ -94,20 +96,25 @@ export const ArticleTable = () => {
                 Modifier
               </a>
 
-              <button className="mx-4" onClick={handleOpenModal} type="button">
+              <button
+                className="mx-4"
+                onClick={() => handleOpenModal(article.getId())}
+                type="button"
+              >
                 Supprimer
               </button>
-              <ConfirmationModal
-                articleTitle={article.getTitle()}
-                isOpen={modalIsOpen}
-                onClose={handleCloseModal}
-                onConfirm={handleDelete(article.getId())}
-                operation="supprimer"
-              />
             </td>
           </tr>
         ))}
       </tbody>
+
+      <ConfirmationModal
+        articleTitle={articleMap[selectedArticleId]?.getTitle()}
+        isOpen={modalIsOpen}
+        onClose={handleCloseModal}
+        onConfirm={handleDelete(selectedArticleId)}
+        operation="supprimer"
+      />
     </table>
   );
 };
