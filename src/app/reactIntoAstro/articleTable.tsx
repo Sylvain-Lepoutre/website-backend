@@ -90,7 +90,12 @@ export const ArticleTable = () => {
             </td>
 
             <td className="w-1/6 flex justify-center items-center">
-              <a href={`/articles/read/${article.getId()}`}>Lire</a>
+              <a
+                href={`/articles/read/${article.getId()}`}
+                title={article.getTitle()}
+              >
+                Lire
+              </a>
 
               <a href={`/articles/update/${article.getId()}`} className="mx-4">
                 Modifier
