@@ -14,8 +14,20 @@ export const ArticleRead = ({ id }: Props) => {
     <div>
       <h1>{article.getTitle()}</h1>
       <p>{article.getContent()}</p>
-      <p>{article.getCreatedAt().toString()}</p>
-      <p>{article.getUpdatedAt().toString()}</p>
+
+      <p>
+        Article crée le {article.getCreatedAt().toLocaleDateString("fr-FR")} à{" "}
+        {article
+          .getCreatedAt()
+          .toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
+      </p>
+      <p>
+        Article modifié le {article.getUpdatedAt().toLocaleDateString("fr-FR")}{" "}
+        à{" "}
+        {article
+          .getUpdatedAt()
+          .toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
+      </p>
     </div>
   );
 };
