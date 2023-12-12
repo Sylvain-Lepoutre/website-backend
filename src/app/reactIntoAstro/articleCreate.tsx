@@ -5,10 +5,13 @@ import {
 } from "react";
 
 import { createArticle } from "~/stores/article";
+import { ConfirmationModal } from "~/app/reactIntoAstro/ConfirmationModal";
 
 export const ArticleCreate = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const handleTitleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     setTitle(event.target.value);
@@ -18,18 +21,29 @@ export const ArticleCreate = () => {
     setContent(event.target.value);
   };
 
+  const handleOpenModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalIsOpen(false);
+  };
+
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
     createArticle({ title, content });
+    setModalIsOpen(false);
+
+    window.location.href = "/articles";
   };
 
   return (
-    <form onSubmit={handleSubmit} noValidate>
+    <form noValidate>
       <div className="mx-28 mt-10 text-[#0B3168]">
         <header>
           <h1 className="text-3xl font-bold underline mb-10">
-            Modifier votre article
+            Créer votre article
           </h1>
         </header>
 
@@ -55,8 +69,17 @@ export const ArticleCreate = () => {
           </label>
 
           <div>
-            <button type="submit">Valider</button>
+            <button type="button" onClick={handleOpenModal}>
+              Valider
+            </button>
           </div>
+          <ConfirmationModal
+            articleTitle={title}
+            isOpen={modalIsOpen}
+            onClose={handleCloseModal}
+            onConfirm={handleSubmit}
+            operation="créer"
+          />
         </div>
       </div>
     </form>
