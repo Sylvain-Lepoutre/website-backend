@@ -10,24 +10,44 @@ export const ArticleRead = ({ id }: Props) => {
   const article = articleMap[id];
   console.log(article);
 
-  return (
-    <div>
-      <h1>{article.getTitle()}</h1>
-      <p>{article.getContent()}</p>
+  const formatDate = (date: Date): string => {
+    return date.toLocaleDateString("fr-FR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
 
-      <p>
-        Article crée le {article.getCreatedAt().toLocaleDateString("fr-FR")} à{" "}
-        {article
-          .getCreatedAt()
-          .toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
-      </p>
-      <p>
-        Article modifié le {article.getUpdatedAt().toLocaleDateString("fr-FR")}{" "}
-        à{" "}
-        {article
-          .getUpdatedAt()
-          .toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
-      </p>
-    </div>
+  const formatTime = (date: Date): string => {
+    return date.toLocaleTimeString("fr-FR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
+  return (
+    <main className="w-1/2 mx-auto my-12">
+      <h1 className="text-3xl my-8">{article.getTitle()}</h1>
+
+      <p className="my-8">{article.getContent()}</p>
+
+      <div className="my-8">
+        <p>
+          Article crée le {formatDate(article.getCreatedAt())} à{" "}
+          {formatTime(article.getCreatedAt())}
+        </p>
+
+        <p>
+          Article modifié le {formatDate(article.getUpdatedAt())} à{" "}
+          {formatTime(article.getUpdatedAt())}
+        </p>
+      </div>
+
+      <div className="text-center">
+        <a className="mx-auto" href="/articles">
+          Retour à la liste des articles
+        </a>
+      </div>
+    </main>
   );
 };

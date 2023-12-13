@@ -20,7 +20,7 @@ export const ConfirmationModal = ({
       className="w-1/2 mx-auto h-1/10 my-10 text-center p-10 rounded-md"
       isOpen={isOpen}
       onRequestClose={onClose}
-      contentLabel="Confirmation Modal"
+      contentLabel="Modal de confirmation"
     >
       <h2>
         Êtes-vous sûr de vouloir {operation} l’article {articleTitle}?
