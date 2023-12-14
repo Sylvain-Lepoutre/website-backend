@@ -6,12 +6,6 @@ import { ArticleTable } from "../../app/reactIntoAstro/articleTable"
 import { articles } from "~/articles";
 ---
 
-<!-- Liste des articles sous forme de tableau -->
-<!-- Bouton Ajouter un nouvel article -->
-<!-- Sur chaque ligne un bouton pour modifier un article et supprimer un article (avec confirmation) -->
-
 <BaseLayout title="Dashboard">
   <ArticleTable client:only="react" />
-
-  <a href="/articles/create">Ajouter un article</a>
 </BaseLayout>
