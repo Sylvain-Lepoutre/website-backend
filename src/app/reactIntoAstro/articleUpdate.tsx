@@ -91,10 +91,9 @@ export const ArticleUpdate = ({ id }: Props) => {
           <label className="flex flex-col text-l font-bold">
             {`Contenu${content !== contentRef.current ? "*" : ""}`}
 
-            <input
-              className="border-[1px] border-[#0B3168] rounded-md h-8 mt-4 font-normal"
+            <textarea
+              className="border-[1px] border-[#0B3168] rounded-md h-96 mt-4 font-normal"
               onChange={handleContentChange}
-              type="text"
               value={content}
             />
           </label>
