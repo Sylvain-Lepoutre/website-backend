@@ -4,8 +4,7 @@ import BaseLayout from "~/layouts/BaseLayout.astro";
 ---
 
 <BaseLayout title="Ajouter un article">
-  <ArticleCreate client:load />
+  <ArticleCreate client:only="react" />
 
   <a href="/articles">Retour</a>
 </BaseLayout>
-

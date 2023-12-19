@@ -4,8 +4,13 @@ import {
   type FormEventHandler,
 } from "react";
 
+import SimpleMDE from "react-simplemde-editor";
+import ReactMarkdown from "react-markdown";
+
 import { createArticle } from "~/stores/article";
 import { ConfirmationModal } from "~/app/reactIntoAstro/ConfirmationModal";
+
+import "easymde/dist/easymde.min.css";
 
 export const ArticleCreate = () => {
   const [title, setTitle] = useState("");
@@ -17,8 +22,12 @@ export const ArticleCreate = () => {
     setTitle(event.target.value);
   };
 
-  const handleContentChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setContent(event.target.value);
+  // const handleContentChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  //   setContent(event.target.value);
+  // };
+
+  const handleContentChange = (value: string) => {
+    setContent(value);
   };
 
   const handleOpenModal = () => {
@@ -60,11 +69,13 @@ export const ArticleCreate = () => {
 
           <label className="flex flex-col text-l font-bold">
             Contenu
-            <textarea
+            {/* <textarea
               className="border-[1px] border-[#0B3168] rounded-md h-96 mt-4 font-normal"
               onChange={handleContentChange}
               value={content}
-            />
+            /> */}
+            <SimpleMDE onChange={handleContentChange} value={content} />
+            <ReactMarkdown>{content}</ReactMarkdown>
           </label>
 
           <div>

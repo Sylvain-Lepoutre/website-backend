@@ -1,5 +1,7 @@
 import { useStore } from "@nanostores/react";
 
+import ReactMarkdown from "react-markdown";
+
 import { store } from "~/stores/article";
 
 type Props = { id: string };
@@ -29,7 +31,7 @@ export const ArticleRead = ({ id }: Props) => {
     <main className="w-1/2 mx-auto my-12">
       <h1 className="text-3xl my-8">{article.getTitle()}</h1>
 
-      <p className="my-8">{article.getContent()}</p>
+      <ReactMarkdown>{article.getContent()}</ReactMarkdown>
 
       <div className="my-8">
         <p>
