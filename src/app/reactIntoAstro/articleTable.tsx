@@ -1,11 +1,20 @@
+import ReactMarkdown from "react-markdown";
+
 import { useStore } from "@nanostores/react";
-import { useCallback, useState, type MouseEventHandler } from "react";
+import {
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+  type MouseEventHandler,
+} from "react";
 
 import { store, deleteArticle } from "~/stores/article";
 import { ConfirmationModal } from "~/app/reactIntoAstro/ConfirmationModal";
 
 export const ArticleTable = () => {
   const articleMap = useStore(store);
+
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedArticleId, setSelectedArticleId] = useState("");
   const [sortByDate, setSortByDate] = useState(false);
@@ -20,15 +29,6 @@ export const ArticleTable = () => {
     setSelectedArticleId("");
     setModalIsOpen(false);
   };
-
-  const handleDelete = useCallback(
-    (articleId: string): MouseEventHandler<HTMLButtonElement> =>
-      () => {
-        deleteArticle(articleId);
-        setModalIsOpen(false);
-      },
-    [],
-  );
 
   const getSummary = (text: string): string => {
     const words = text.split(" ");
@@ -54,17 +54,53 @@ export const ArticleTable = () => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredArticles = Object.values(articleMap).filter((article) =>
-    article.getTitle().toLowerCase().includes(searchTerm.toLowerCase()),
+  const deleteButtonRefs = useRef<Record<string, HTMLButtonElement>>({});
+
+  const filteredArticles = useMemo(
+    () =>
+      Object.values(articleMap).filter((article) =>
+        article.getTitle().toLowerCase().includes(searchTerm.toLowerCase()),
+      ),
+    [articleMap, searchTerm],
   );
 
-  const sortedArticles = filteredArticles.sort((a, b) => {
-    if (sortByDate) {
-      return a.getCreatedAt().getTime() - b.getCreatedAt().getTime();
-    } else {
-      return b.getCreatedAt().getTime() - a.getCreatedAt().getTime();
-    }
-  });
+  const sortedArticles = useMemo(
+    () =>
+      filteredArticles.sort((a, b) => {
+        if (sortByDate) {
+          return a.getCreatedAt().getTime() - b.getCreatedAt().getTime();
+        } else {
+          return b.getCreatedAt().getTime() - a.getCreatedAt().getTime();
+        }
+      }),
+    [filteredArticles, sortByDate],
+  );
+
+  const sortedDeleteButtonRefs = useMemo(
+    () =>
+      sortedArticles.map(
+        (article) => deleteButtonRefs.current[article.getId()],
+      ),
+    [sortedArticles],
+  );
+
+  const handleDelete = useCallback(
+    (articleId: string): MouseEventHandler<HTMLButtonElement> =>
+      () => {
+        const index = sortedArticles.findIndex(
+          (article) => article.getId() === articleId,
+        );
+
+        const focusedIndex =
+          index < sortedArticles.length - 1 ? index + 1 : index - 1;
+
+        sortedDeleteButtonRefs[focusedIndex]?.focus();
+
+        deleteArticle(articleId);
+        setModalIsOpen(false);
+      },
+    [sortedArticles, sortedDeleteButtonRefs],
+  );
 
   return (
     <main>
@@ -84,7 +120,9 @@ export const ArticleTable = () => {
           onChange={handleSearch}
         />
       </div>
-
+      <div role="status" className="sr-only">
+        {filteredArticles.length} articles trouvés
+      </div>
       <a className="mx-auto" href="/articles/create">
         Ajouter un article
       </a>
@@ -107,7 +145,7 @@ export const ArticleTable = () => {
             <th scope="col" className="w-1/6 flex justify-center items-center">
               Date de création
               <button
-                className="mx-4"
+                className="mx-4 p-4"
                 onClick={handleSortByDate}
                 type="button"
                 aria-label={
@@ -144,7 +182,9 @@ export const ArticleTable = () => {
               </th>
 
               <td className="w-1/6 flex justify-center items-center">
-                {getSummary(article.getContent())}
+                <ReactMarkdown>
+                  {getSummary(article.getContent())}
+                </ReactMarkdown>
               </td>
 
               <td className="w-1/6 flex justify-center items-center">
@@ -174,6 +214,9 @@ export const ArticleTable = () => {
                   className="mx-4"
                   onClick={() => handleOpenModal(article.getId())}
                   type="button"
+                  ref={(deleteButton) =>
+                    (deleteButtonRefs.current[article.getId()] = deleteButton)
+                  }
                 >
                   Supprimer
                 </button>

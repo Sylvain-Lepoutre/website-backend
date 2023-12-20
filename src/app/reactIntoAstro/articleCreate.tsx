@@ -10,6 +10,8 @@ import ReactMarkdown from "react-markdown";
 import { createArticle } from "~/stores/article";
 import { ConfirmationModal } from "~/app/reactIntoAstro/ConfirmationModal";
 
+import { MarkdownEditor } from "~/components/MarkdownEditor";
+
 import "easymde/dist/easymde.min.css";
 
 export const ArticleCreate = () => {
@@ -67,16 +69,12 @@ export const ArticleCreate = () => {
             />
           </label>
 
-          <label className="flex flex-col text-l font-bold">
-            Contenu
-            {/* <textarea
-              className="border-[1px] border-[#0B3168] rounded-md h-96 mt-4 font-normal"
-              onChange={handleContentChange}
-              value={content}
-            /> */}
-            <SimpleMDE onChange={handleContentChange} value={content} />
-            <ReactMarkdown>{content}</ReactMarkdown>
-          </label>
+          <label className="flex flex-col text-l font-bold">Contenu</label>
+
+          <MarkdownEditor />
+
+          <SimpleMDE onChange={handleContentChange} value={content} />
+          <ReactMarkdown>{content}</ReactMarkdown>
 
           <div>
             <button type="button" onClick={handleOpenModal}>
